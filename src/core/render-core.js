@@ -18,6 +18,7 @@ async function createBrowser(opts) {
   }
   browserOpts.headless = !config.DEBUG_MODE;
   browserOpts.args = ['--no-sandbox', '--disable-setuid-sandbox'];
+  browserOpts.executablePath = 'google-chrome';
   if (!opts.enableGPU || navigator.userAgent.indexOf('Win') !== -1) {
     browserOpts.args.push('--disable-gpu');
   }
@@ -70,7 +71,9 @@ async function render(_opts = {}) {
     opts.pdf.format = undefined;
   }
 
-  logOpts(opts);
+  if (config.LOG_LEVEL === 'silly') {
+    logOpts(opts);
+  }
 
   const browser = await createBrowser(opts);
   const page = await browser.newPage();
@@ -108,7 +111,7 @@ async function render(_opts = {}) {
     await page.setViewport(opts.viewport);
     if (opts.emulateScreenMedia) {
       logger.info('Emulate @media screen..');
-      await page.emulateMedia('screen');
+      await page.emulateMediaType('screen');
     }
 
     if (opts.cookies && opts.cookies.length > 0) {
@@ -190,6 +193,7 @@ async function render(_opts = {}) {
         const selectorScreenOpts = _.cloneDeep(_.omit(screenshotOpts, ['selector', 'fullPage']));
         if (!_.isNull(selElement)) {
           data = await selElement.screenshot(selectorScreenOpts);
+
         }
       }
     }
