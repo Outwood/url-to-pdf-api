@@ -62,7 +62,7 @@ async function render(_opts = {}) {
       type: 'png',
       fullPage: true,
     },
-    failEarly: false,
+    failEarly: 'page',
   }, _opts);
 
   if ((_.get(_opts, 'pdf.width') && _.get(_opts, 'pdf.height')) || _.get(opts, 'pdf.fullPage')) {
