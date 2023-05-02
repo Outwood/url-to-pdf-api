@@ -148,7 +148,7 @@ async function render(_opts = {}) {
     if (this.failedResponses.length) {
       logger.warn(`Number of failed requests: ${this.failedResponses.length}`);
       this.failedResponses.forEach((response) => {
-        logger.warn(`${response.status} ${response.url}`);
+        logger.warn(`${response.status()} ${response.url()}`);
       });
 
       if (opts.failEarly === 'all') {
@@ -159,8 +159,8 @@ async function render(_opts = {}) {
         throw err;
       }
     }
-    if (opts.failEarly === 'page' && this.mainUrlResponse.status !== 200) {
-      const msg = `Request for ${opts.url} did not directly succeed and returned status ${this.mainUrlResponse.status}`;
+    if (opts.failEarly === 'page' && this.mainUrlResponse.status() !== 200) {
+      const msg = `Request for ${opts.url} did not directly succeed and returned status ${this.mainUrlResponse.status()}`;
       const err = new Error(msg);
       err.status = 412;
       throw err;
