@@ -29,6 +29,7 @@ const sharedQuerySchema = Joi.object({
     Joi.number().min(1).max(60000),
     Joi.string().min(1).max(2000),
   ]),
+  failEarly: Joi.string(),
   cookies: Joi.array().items(cookieSchema),
   output: Joi.string().valid(['pdf', 'screenshot', 'html']),
   'viewport.width': Joi.number().min(1).max(30000),
